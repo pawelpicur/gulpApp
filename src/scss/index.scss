@@ -1,0 +1,27 @@
+@import '~grommet/scss/hpe/index';
+.hidden {visibility:hidden}
+.nodisplay {display:none}
+
+:focus{
+    outline: none;
+}
+
+.grommetux-form-field {
+    overflow: hidden;
+}
+
+.grommetux-layer{
+  background-color:rgba(255, 255, 255, 100);
+}
+
+.grommetux-tab--active .grommetux-tab__label {
+    border-color: #01a982;
+}
+
+.grommetux-meter--bar .grommetux-meter__values .grommetux-meter__slice{
+	animation : none;
+}
+
+.grommetux-tabs--justify-start.grommetux-tabs--responsive, .grommetux-tabs--justify-center.grommetux-tabs--responsive, .grommetux-tabs--justify-end.grommetux-tabs--responsive{
+    flex-direction: row;
+}

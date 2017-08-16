@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <title>App</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="img/faviconico" />
+  <link rel="apple-touch-icon" sizes="196x196" type="image/x-icon" href="img/favicon.ico"> -->
+  <link rel="shortcut icon" type="image/jpeg" href="img/pepe.jpg" />
+  <link rel="apple-touch-icon" sizes="196x196" type="image/jpeg" href="img/pepe.jpg"> 
+  <style>
+    #overlay img {
+       margin:0 auto;
+      display: block;
+      width: 25%;
+      outline: none;
+    }
+    #loadingdiv {
+      font-size: 28px;
+      color: #01a982;
+      font-family: Arial, sans-serif;
+      margin-bottom: 10%;
+    }
+  </style>
+</head>
+
+<body class="loading">
+  <div id="content" tabindex='-1'>
+    <div id="overlay"><center><div id="loadingdiv">Loading...</div><img src="img/91.svg" /></center></div>
+    <script>
+      var timer = setInterval(function () {
+        var again = false;
+        if (document.body.classList.contains('loading')) {
+          again = true;
+        }
+        if (!again) {
+          clearInterval(timer);
+          document.getElementsByTagName("body")[0].className.replace(/loading/, "");
+        }
+      }, 100)
+    </script>
+  </div>
+  <script src="index.js"></script>
+</body>
+
+</html>
