@@ -1,15 +1,4 @@
-import { SIGNED_IN } from '../constants';
 import { ADD_REMINDER, DELETE_REMINDER, CLEAR_REMINDERS } from '../constants';
-
-//gulpApp
-
-export function logUser(email) {
-    const action = {
-        type: SIGNED_IN,
-        email
-    }
-    return action;
-}
 
 //Reminder
 

@@ -9,12 +9,15 @@ import { Router, Route, Switch, withRouter } from 'react-router-dom';
 import { firebaseApp } from './firebase';
 import createHistory from 'history/createBrowserHistory';
 import reducer from './reducers';
+import reminders from './reducers/reminders';
 import { logUser } from './actions';
 
 import Index from './components/Index';
 import SignForm from './components/SignForm';
+import Reminder from './components/Reminder';
 
 const store = createStore(reducer);
+const storereminders = createStore(reminders);
 
 const history = createHistory();
  firebaseApp.auth().onAuthStateChanged(user => {
@@ -40,7 +43,10 @@ render() {
                 <Switch>
                     <Route exact path="/" />
                     <Route exact path="/Index" component={Index} /> 
-                    <Route exact path="/SignForm" component={SignForm} /> 
+                    <Route exact path="/SignForm" component={SignForm} />
+                    <Provider store={storereminders}>
+                        <Route exact path="/Reminder" component={Reminder} /> 
+                    </Provider>
                 </Switch>
             </Router>
         </Provider>
