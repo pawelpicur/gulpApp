@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addReminder, deleteReminder, clearReminders } from '../actions/reminders';
 import moment from 'moment';
+import Anchor from 'grommet/components/Anchor';
 
 class Reminder extends Component {
   constructor(props) {
@@ -65,6 +66,8 @@ render() {
         { this.renderReminders()}
         <div className="btn btn-danger"
     onClick={() => this.props.clearReminders()}>Clear Reminders</div>
+
+    <div><Anchor label="Home" path={'/Home'}/></div>
     </div>
     
   )

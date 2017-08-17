@@ -12,7 +12,7 @@ import reducer from './reducers';
 import reminders from './reducers/reminders';
 import { logUser } from './actions';
 
-import Index from './components/Index';
+import Home from './components/Home';
 import SignForm from './components/SignForm';
 import Reminder from './components/Reminder';
 
@@ -25,7 +25,7 @@ const history = createHistory();
           console.log('user has signed in or up', user);
           const { email } = user;
           store.dispatch(logUser(email))
-          history.push('/Index');
+          history.push('/Home');
       } 
       else { 
           console.log('user has signed out or still needs sign in');
@@ -42,7 +42,7 @@ render() {
             <Router history={history}>
                 <Switch>
                     <Route exact path="/" />
-                    <Route exact path="/Index" component={Index} /> 
+                    <Route exact path="/Home" component={Home} /> 
                     <Route exact path="/SignForm" component={SignForm} />
                     <Provider store={storereminders}>
                         <Route exact path="/Reminder" component={Reminder} /> 
