@@ -6,11 +6,7 @@ const reminder = (action) => {
     return {
         id: Math.random(),
         text,
-        dueDate,
-        language:{
-            value: language.value,
-            label: language.label
-        }
+        dueDate
     }
 }
 

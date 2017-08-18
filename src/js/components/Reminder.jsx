@@ -8,6 +8,7 @@ import Form from 'grommet/components/Form';
 import Select from 'grommet/components/Select';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
+import { bake_cookie, read_cookie } from 'sfcookies';
 
 class Reminder extends Component {
   constructor(props) {
@@ -16,23 +17,19 @@ class Reminder extends Component {
       text: '',
       dueDate: '',
       language: {
-        label: 'English',
-        value: 'en'
+        label: '',
+        value: ''
       }
     }
   }
-  
+
 componentDidMount(){
-  console.log('this.props.reminders z mounta', this.props.reminders);
-  if (this.props.reminders.length !== 0) {
-    this.changeDefLang();
-  }
-  
+  this.loadLastLang();
 }
 
 addReminder() {
   console.log('this', this);
-  this.props.addReminder(this.state.text, this.state.dueDate, this.state.language);
+  this.props.addReminder(this.state.text, this.state.dueDate);
 }
 
 deleteReminder(id) {
@@ -41,9 +38,15 @@ deleteReminder(id) {
   this.props.deleteReminder(id);
 }
 
-changeDefLang() {
-  const reminder = (this.props.reminders[this.props.reminders.length-1]);
-  this.setState({language:reminder.language})
+selectLanguage(event){
+  const lang = event.option
+  bake_cookie('LanguageReminders', lang)
+  this.setState({language:lang})
+}
+
+loadLastLang(){
+  const lastlang = read_cookie('LanguageReminders');
+  this.setState({language:lastlang})
 }
 
 renderReminders() {
@@ -89,7 +92,7 @@ render() {
               <Select placeHolder='Language'
                 options={[{value:'en', label:'English'}, {value:'pl', label:'Polish'}, {value:'fr', label:'French'}, {value:'es', label:'Spanish'}]}
                 value={this.state.language.label}
-                onChange={event => this.setState({language: event.option})} />
+                onChange={event => this.selectLanguage(event)} />
             </FormField>
 
             <FormField label="Reminder">
