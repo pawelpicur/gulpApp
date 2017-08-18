@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { addReminder, deleteReminder, clearReminders } from '../actions/reminders';
 import moment from 'moment';
 import Anchor from 'grommet/components/Anchor';
+import DateTime from 'grommet/components/DateTime';
+import Form from 'grommet/components/Form';
+import FormField from 'grommet/components/FormField';
+import TextInput from 'grommet/components/TextInput';
 
 class Reminder extends Component {
   constructor(props) {
@@ -27,6 +31,7 @@ deleteReminder(id) {
 renderReminders() {
     console.log('this.props przed map', this.props)
   const { reminders } = this.props;
+
   return (
     <ul className="list-group col-sm-4">
       {
@@ -35,7 +40,8 @@ renderReminders() {
             <li key={reminder.id} className="list-group-item">
               <div className="list-item">
                 <div>{reminder.text}</div>
-                <div><em>{moment (new Date(reminder.dueDate)).fromNow()}</em></div>
+                
+                <div><em>{moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("M/D/YYYY h:mm a"))).fromNow() }</em></div>
               </div>
               
               <div className="list-item delete-button"  onClick={() => this.deleteReminder(reminder.id)}><strong>&#x2715;</strong></div>
@@ -56,9 +62,18 @@ render() {
       </div>
       <div className="form-inline reminder-form">
         <div className="form-group">
-          <input className="form-control" placeholder="To do..." onChange={event => this.setState({text: event.target.value})}/>
-          <input className="form-control" type="datetime-local" onChange={event => this.setState({dueDate: event.target.value})}/>
-  
+          <Form>
+            <FormField label="Reminder">
+              <TextInput ref='reminder_input' placeholder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
+            </FormField>
+            <FormField label="Date">
+                <DateTime id='datetime'
+                  format="DD/MM/YYYY HH:mm"
+                  name='Date'
+                  value={this.state.dueDate}
+                  onChange={event => this.setState({dueDate: event})} />
+            </FormField>
+          </Form>
         </div>
           <button type="button" className="btn btn-success" onClick={() => this.addReminder()} >Add Reminder</button>
       </div>

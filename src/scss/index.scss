@@ -2,9 +2,9 @@
 .hidden {visibility:hidden}
 .nodisplay {display:none}
 
-:focus{
-    outline: none;
-}
+// :focus{
+//     outline: none;
+// }
 
 .grommetux-form-field {
     overflow: hidden;
@@ -25,30 +25,10 @@
 .grommetux-tabs--justify-start.grommetux-tabs--responsive, .grommetux-tabs--justify-center.grommetux-tabs--responsive, .grommetux-tabs--justify-end.grommetux-tabs--responsive{
     flex-direction: row;
 }
-
-
-.Application {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
   
   .title {
     text-align: center;
     font-size: 26px;
-  }
-  
-  .form-control input {
-    margin: 5px;
-  }
-  
-  .reminder-form {
-    padding: 5
-  }
-  
-  .list-item {
-    display: inline-block;
   }
   
   .delete-button {
