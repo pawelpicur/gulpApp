@@ -7,7 +7,10 @@ import DateTime from 'grommet/components/DateTime';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
+import Box from 'grommet/components/Box';
+import Button from 'grommet/components/Button';
 import { bake_cookie, read_cookie } from 'sfcookies';
+import App from 'grommet/components/App';
 
 class Reminder extends Component {
   constructor(props) {
@@ -63,18 +66,14 @@ renderReminders() {
 }
 
 render() {
-  
+  const styButton = { maxWidth: '480px', marginTop: '1em'};
   return (
-    <div className="Application">
-      <div className="Title">
-          Reminders
-      </div>
-      <div className="form-inline reminder-form">
-        <div className="form-group">
+    <App style={{maxWidth: '500px', padding: '24px'}}>
+      
           <Form>
 
             <FormField label="Reminder">
-              <TextInput ref='reminder_input' placeholder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
+              <TextInput ref='reminder_input' placeHolder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
             </FormField>
 
             <FormField label="Date">
@@ -86,17 +85,19 @@ render() {
             </FormField>
             
           </Form>
-        </div>
-          <button type="button" className="btn btn-success" onClick={() => this.addReminder()} >Add Reminder</button>
-      </div>
-      <br/>
-        { this.renderReminders()}
-        <div className="btn btn-danger"
-    onClick={() => this.props.clearReminders()}>Clear Reminders</div>
 
-    <div><Anchor label="Home" path={'/Home'}/></div>
+        <Button fill={true} style={styButton} primary={true} type="submit" label='Add Reminder' onClick={() => this.addReminder()}/>
+
+      <Box style={{paddingTop:'2em'}} pad='small'>
+      { this.renderReminders()}
+      </Box>
+        
+
+    <Button fill={true} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    <div style={{paddingTop:'2em'}}>
+      <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
     </div>
-    
+    </App>
   )
 }
 }
