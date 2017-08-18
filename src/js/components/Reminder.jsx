@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addReminder, deleteReminder, clearReminders } from '../actions/reminders';
+import { addReminder, deleteReminder, clearReminders, sortReminders } from '../actions/reminders';
 import moment from 'moment';
 import Anchor from 'grommet/components/Anchor';
 import DateTime from 'grommet/components/DateTime';
@@ -9,6 +9,9 @@ import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Table from 'grommet/components/Table';
+import TableHeader from 'grommet/components/TableHeader';
+import TableRow from 'grommet/components/TableRow';
 import { bake_cookie, read_cookie } from 'sfcookies';
 import App from 'grommet/components/App';
 
@@ -36,39 +39,48 @@ deleteReminder(id) {
   this.props.deleteReminder(id);
 }
 
+sortReminders(text) {
+  console.log('this', this);
+  console.log('sortIndex', text);
+  this.props.sortReminders(text);
+}
 
 renderReminders() {
     console.log('this.props przed map', this.props)
   const { reminders } = this.props;
   
   return (
-    <ul className="list-group col-sm-4">
+    <Table>
+    <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
+      sortIndex={0}
+      sortAscending={false}
+      onSort={this.sortReminders(0)}
+/>
+      <tbody>
       {
         reminders.map(reminder => {
           //console.log('reminder', reminders[reminders.length-1].language.label)
           
           return (
-            <li key={reminder.id} className="list-group-item">
-              <div className="list-item">
-                <div>{reminder.text}</div>
-                
-                <div><em>{moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() }</em></div>
-              </div>
-              
-              <div className="list-item delete-button"  onClick={() => this.deleteReminder(reminder.id)}><strong>&#x2715;</strong></div>
-
-            </li>
+            <TableRow key={reminder.id}>
+                <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
+                <td style={{width: '33%'}}>{reminder.dueDate ? moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date'}</td>
+                <td style={{width: '2%'}}><div className="list-item delete-button"  onClick={() => this.deleteReminder(reminder.id)}><strong>&#x2715;</strong></div></td>
+            </TableRow>
           )
         })
       }
-    </ul>
+      
+      </tbody>
+    </Table>
+    
   )
 }
 
 render() {
   const styButton = { maxWidth: '480px', marginTop: '1em'};
   return (
-    <App style={{maxWidth: '500px', padding: '24px'}}>
+    <App style={{ padding: '24px'}}>
       
           <Form>
 
@@ -88,7 +100,7 @@ render() {
 
         <Button fill={true} style={styButton} primary={true} type="submit" label='Add Reminder' onClick={() => this.addReminder()}/>
 
-      <Box style={{paddingTop:'2em'}} pad='small'>
+      <Box style={{paddingTop:'2em'}}>
       { this.renderReminders()}
       </Box>
         
