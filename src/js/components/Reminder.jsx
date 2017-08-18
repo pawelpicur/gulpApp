@@ -54,7 +54,7 @@ renderReminders() {
     <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
       sortIndex={0}
       sortAscending={false}
-      onSort={this.sortReminders(0)}
+      //onSort={this.sortReminders(0)}
 />
       <tbody>
       {
@@ -118,4 +118,4 @@ function mapStateToProps(state) {
     reminders: state
   }
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders})(Reminder);
+export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders, sortReminders})(Reminder);

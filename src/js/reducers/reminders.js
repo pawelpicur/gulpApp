@@ -18,7 +18,7 @@ const removeById = (state = [], id) => {
 
 const sortByIndex = (state = [], text) => {
     
-    const reminders = state.sort(reminder => text);
+    //const reminders = state.sort()
     console.log('new sorted reminders', reminders);
     return reminders;
 }
