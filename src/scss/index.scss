@@ -2,9 +2,9 @@
 .hidden {visibility:hidden}
 .nodisplay {display:none}
 
-// :focus{
-//     outline: none;
-// }
+:focus{
+    outline: none;
+}
 
 .grommetux-form-field {
     overflow: hidden;
@@ -26,14 +26,14 @@
     flex-direction: row;
 }
   
-  .title {
-    text-align: center;
-    font-size: 26px;
-  }
+.title {
+  text-align: center;
+  font-size: 26px;
+}
   
-  .delete-button {
-    float: right;
-    padding-left: 5px;
-    color: red;
-  }
+.delete-button {
+  float: right;
+  padding-left: 5px;
+  color: red;
+}
   
