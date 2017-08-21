@@ -25,15 +25,16 @@ class Reminder extends Component {
     this.state = {
       text: '',
       dueDate: '',
-      sortASC: read_cookie('ASCDESC'),
+      sortASC: read_cookie('ASCDESC') !== [] ? read_cookie('ASCDESC') : true,
       language: {
-        label: read_cookie('LanguageReminders').label,
-        value: read_cookie('LanguageReminders').value
+        label: read_cookie('LanguageReminders').label ? read_cookie('LanguageReminders').label : 'English',
+        value: read_cookie('LanguageReminders').value ? read_cookie('LanguageReminders').value : 'en'
       }
     }
   }
 
 componentWillMount(){
+  console.log('cookie moje', read_cookie('ASCDESC'))
   this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC();
 }
 
@@ -68,8 +69,7 @@ handleKeyPress(event) {
 
 clickSort() { 
   this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC() 
-  let ascCookie = this.state.sortASC;
-  bake_cookie('ASCDESC', ascCookie)
+  bake_cookie('ASCDESC', this.state.sortASC)
 }
 
 renderReminders() {
@@ -80,7 +80,7 @@ renderReminders() {
     <Table>
    <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
     sortIndex={1}
-    sortAscending={read_cookie('ASCDESC')}
+    sortAscending={this.state.sortASC}
     onClick={()=> this.clickSort()}
     className='tableSorter'
 />
