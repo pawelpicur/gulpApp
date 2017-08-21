@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addReminder, deleteReminder, clearReminders } from '../actions/reminders';
+import { addReminder, deleteReminder, clearReminders, sortReminders } from '../actions/reminders';
 import moment from 'moment';
 import Anchor from 'grommet/components/Anchor';
 import DateTime from 'grommet/components/DateTime';
@@ -9,8 +9,15 @@ import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Table from 'grommet/components/Table';
+import TableHeader from 'grommet/components/TableHeader';
+import TableRow from 'grommet/components/TableRow';
 import { bake_cookie, read_cookie } from 'sfcookies';
 import App from 'grommet/components/App';
+import AddIcon from 'grommet/components/icons/base/Add';
+import FormCloseIcon from 'grommet/components/icons/base/FormClose';
+import ClearIcon from 'grommet/components/icons/base/Clear';
+import HomeIcon from 'grommet/components/icons/base/Home';
 
 class Reminder extends Component {
   constructor(props) {
@@ -36,41 +43,50 @@ deleteReminder(id) {
   this.props.deleteReminder(id);
 }
 
+handleKeyPress(event) {
+  if(event.key == 'Enter'){
+    console.log('enter pressed!')
+    this.addReminder();
+  }
+}
 
 renderReminders() {
-    console.log('this.props przed map', this.props)
+  console.log('this.props przed map', this.props)
   const { reminders } = this.props;
   
   return (
-    <ul className="list-group col-sm-4">
+    <Table>
+    <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
+      sortIndex={0}
+      sortAscending={false}
+/>
+      <tbody>
       {
         reminders.map(reminder => {
           //console.log('reminder', reminders[reminders.length-1].language.label)
           
           return (
-            <li key={reminder.id} className="list-group-item">
-              <div className="list-item">
-                <div>{reminder.text}</div>
-                
-                <div><em>{moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() }</em></div>
-              </div>
-              
-              <div className="list-item delete-button"  onClick={() => this.deleteReminder(reminder.id)}><strong>&#x2715;</strong></div>
-
-            </li>
+            <TableRow key={reminder.id}>
+                <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
+                <td style={{width: '30%'}}>{reminder.dueDate ? moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date'}</td>
+                <td style={{width: '5%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
+            </TableRow>
           )
         })
       }
-    </ul>
+      
+      </tbody>
+    </Table>
+    
   )
 }
 
 render() {
-  const styButton = { maxWidth: '480px', marginTop: '1em'};
+  const styButton = { maxWidth: '480px', marginTop: '1em' };
   return (
-    <App style={{maxWidth: '500px', padding: '24px'}}>
-      
-          <Form>
+    <App style={{ padding: '24px' }}>
+      <Box pad='none' align='center'>
+          <Form onKeyPress={event => this.handleKeyPress(event)}>
 
             <FormField label="Reminder">
               <TextInput ref='reminder_input' placeHolder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
@@ -85,18 +101,18 @@ render() {
             </FormField>
             
           </Form>
+      <Button fill={true} icon={<AddIcon colorIndex='brand'/>} style={styButton} primary={true} type='submit' label='Add Reminder' onClick={() => this.addReminder()}/>
 
-        <Button fill={true} style={styButton} primary={true} type="submit" label='Add Reminder' onClick={() => this.addReminder()}/>
-
-      <Box style={{paddingTop:'2em'}} pad='small'>
+      <Box style={{paddingTop:'2em'}}>
       { this.renderReminders()}
       </Box>
         
 
-    <Button fill={true} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    <Button fill={true} icon={<ClearIcon colorIndex='critical'/>} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    </Box> 
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
-    </div>
+    </div>     
     </App>
   )
 }
