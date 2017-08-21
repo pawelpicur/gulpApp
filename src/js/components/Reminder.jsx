@@ -51,13 +51,13 @@ sortReminders(text) {
 
 handleKeyPress(event) {
   if(event.key == 'Enter'){
-    console.log('enter pressed! ', event)
+    console.log('enter pressed!')
     this.addReminder();
   }
 }
 
 renderReminders() {
-    console.log('this.props przed map', this.props)
+  console.log('this.props przed map', this.props)
   const { reminders } = this.props;
   
   return (
@@ -93,6 +93,7 @@ render() {
   const styButton = { maxWidth: '480px', marginTop: '1em' };
   return (
     <App style={{ padding: '24px' }}>
+      <Box pad='none' align='center'>
           <Form onKeyPress={event => this.handleKeyPress(event)}>
 
             <FormField label="Reminder">
@@ -116,10 +117,10 @@ render() {
         
 
     <Button fill={true} icon={<ClearIcon colorIndex='critical'/>} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    </Box> 
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
-    </div>
-       
+    </div>    
     </App>
   )
 }
