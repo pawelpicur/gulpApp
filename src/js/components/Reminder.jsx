@@ -14,6 +14,10 @@ import TableHeader from 'grommet/components/TableHeader';
 import TableRow from 'grommet/components/TableRow';
 import { bake_cookie, read_cookie } from 'sfcookies';
 import App from 'grommet/components/App';
+import AddIcon from 'grommet/components/icons/base/Add';
+import FormCloseIcon from 'grommet/components/icons/base/FormClose';
+import ClearIcon from 'grommet/components/icons/base/Clear';
+import HomeIcon from 'grommet/components/icons/base/Home';
 
 class Reminder extends Component {
   constructor(props) {
@@ -45,6 +49,13 @@ sortReminders(text) {
   this.props.sortReminders(text);
 }
 
+handleKeyPress(event) {
+  if(event.key == 'Enter'){
+    console.log('enter pressed! ', event)
+    this.addReminder();
+  }
+}
+
 renderReminders() {
     console.log('this.props przed map', this.props)
   const { reminders } = this.props;
@@ -54,6 +65,7 @@ renderReminders() {
     <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
       sortIndex={0}
       sortAscending={false}
+      
       //onSort={this.sortReminders(0)}
 />
       <tbody>
@@ -64,8 +76,8 @@ renderReminders() {
           return (
             <TableRow key={reminder.id}>
                 <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
-                <td style={{width: '33%'}}>{reminder.dueDate ? moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date'}</td>
-                <td style={{width: '2%'}}><div className="list-item delete-button"  onClick={() => this.deleteReminder(reminder.id)}><strong>&#x2715;</strong></div></td>
+                <td style={{width: '30%'}}>{reminder.dueDate ? moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date'}</td>
+                <td style={{width: '5%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
             </TableRow>
           )
         })
@@ -78,11 +90,10 @@ renderReminders() {
 }
 
 render() {
-  const styButton = { maxWidth: '480px', marginTop: '1em'};
+  const styButton = { maxWidth: '480px', marginTop: '1em' };
   return (
-    <App style={{ padding: '24px'}}>
-      
-          <Form>
+    <App style={{ padding: '24px' }}>
+          <Form onKeyPress={event => this.handleKeyPress(event)}>
 
             <FormField label="Reminder">
               <TextInput ref='reminder_input' placeHolder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
@@ -97,18 +108,18 @@ render() {
             </FormField>
             
           </Form>
-
-        <Button fill={true} style={styButton} primary={true} type="submit" label='Add Reminder' onClick={() => this.addReminder()}/>
+      <Button fill={true} icon={<AddIcon colorIndex='brand'/>} style={styButton} primary={true} type='submit' label='Add Reminder' onClick={() => this.addReminder()}/>
 
       <Box style={{paddingTop:'2em'}}>
       { this.renderReminders()}
       </Box>
         
 
-    <Button fill={true} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    <Button fill={true} icon={<ClearIcon colorIndex='critical'/>} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
     </div>
+       
     </App>
   )
 }
