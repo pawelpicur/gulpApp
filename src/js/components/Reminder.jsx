@@ -34,12 +34,10 @@ class Reminder extends Component {
   }
 
 componentWillMount(){
-  console.log('cookie moje', read_cookie('ASCDESC'))
   this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC();
 }
 
 addReminder() {
-  console.log('this', this);
   this.props.addReminder(this.state.text, this.state.dueDate);
   this.state.sortASC ? this.sortRemindersDESC() : this.sortReminders();
 }
@@ -55,8 +53,6 @@ sortRemindersDESC() {
 }
 
 deleteReminder(id) {
-  console.log('deleting in app', id);
-  console.log('this.props', this.props);
   this.props.deleteReminder(id);
 }
 
@@ -73,22 +69,18 @@ clickSort() {
 }
 
 renderReminders() {
-  console.log('this.props przed map', this.props)
   const { reminders } = this.props;
   
   return (
-    <Table>
+  <Table>
    <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
     sortIndex={1}
     sortAscending={this.state.sortASC}
     onClick={()=> this.clickSort()}
-    className='tableSorter'
-/>
+    className='tableSorter'/>
       <tbody>
       {
-        reminders.map(reminder => {
-          //console.log('reminder', reminders[reminders.length-1].language.label)
-          
+        reminders.map(reminder => {        
           return (
             <TableRow key={reminder.id}>
                 <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
@@ -100,7 +92,7 @@ renderReminders() {
       }
       
       </tbody>
-    </Table>
+  </Table>
     
   )
 }
@@ -136,10 +128,7 @@ render() {
     </Box> 
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
-    </div>     
-    <div style={{paddingTop:'2em'}}>
-      <Button style={styButton} primary={true} label='Sort' onClick={()=> this.clickSort() }/>
-    </div>     
+    </div>         
     </App>
   )
 }

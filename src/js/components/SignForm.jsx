@@ -74,7 +74,6 @@ handleKeyPress(event) {
 }
 
   render() {
-      console.log('props singin', this.props)
       const styBox = { padding: '24px' };
       const styButton = { maxWidth: '480px'};
       const styError = { color: 'red', marginTop: '1em', minHeight: '24px'};
