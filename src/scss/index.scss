@@ -31,7 +31,7 @@
   font-size: 26px;
 }
   
-.delete-button:hover {
+.delete-button:hover, .tableSorter th:nth-child(2):hover{
   cursor: pointer; 
   cursor: hand;
 }
@@ -40,6 +40,7 @@
     display: table-cell;
     padding: 0;
 }
+
 .grommetux-table--small td:before {
     content: none;
 }

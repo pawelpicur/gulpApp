@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addReminder, deleteReminder, clearReminders, sortReminders } from '../actions/reminders';
+import { addReminder, deleteReminder, clearReminders, sortReminders, sortRemindersDESC } from '../actions/reminders';
 import moment from 'moment';
 import Anchor from 'grommet/components/Anchor';
 import DateTime from 'grommet/components/DateTime';
@@ -25,6 +25,7 @@ class Reminder extends Component {
     this.state = {
       text: '',
       dueDate: '',
+      sortASC: read_cookie('ASC/DESC'),
       language: {
         label: read_cookie('LanguageReminders').label,
         value: read_cookie('LanguageReminders').value
@@ -33,17 +34,21 @@ class Reminder extends Component {
   }
 
 componentWillMount(){
-  this.sortReminders();
+  this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC();
 }
 
 addReminder() {
   console.log('this', this);
   this.props.addReminder(this.state.text, this.state.dueDate);
-  this.sortReminders();
+  this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC();
 }
 
 sortReminders() {
   this.props.sortReminders();
+}
+
+sortRemindersDESC() {
+  this.props.sortRemindersDESC();
 }
 
 deleteReminder(id) {
@@ -59,13 +64,23 @@ handleKeyPress(event) {
   }
 }
 
+clickSort() {
+  this.state.sortASC ? this.setState({sortASC: false}) : this.setState({sortASC: true})
+  this.state.sortASC ? this.sortRemindersDESC() : this.sortReminders();
+  bake_cookie('ASC/DESC', this.state.sortASC)
+}
+
 renderReminders() {
   console.log('this.props przed map', this.props)
   const { reminders } = this.props;
   
   return (
     <Table>
-    <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
+   <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
+    sortIndex={1}
+    sortAscending={this.state.sortASC}
+    onClick={()=> this.clickSort()}
+    className='tableSorter'
 />
       <tbody>
       {
@@ -120,6 +135,9 @@ render() {
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
     </div>     
+    <div style={{paddingTop:'2em'}}>
+      <Button style={styButton} primary={true} label='Sort' onClick={()=> this.clickSort() }/>
+    </div>     
     </App>
   )
 }
@@ -129,4 +147,4 @@ function mapStateToProps(state) {
     reminders: state
   }
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders, sortReminders})(Reminder);
+export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders, sortReminders, sortRemindersDESC})(Reminder);
