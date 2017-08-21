@@ -66,6 +66,13 @@ componentDidUpdate(){
   this.state.activIndex === 1 && this.state.email === '' && this.state.password === '' ? this.clickRegisterTab() : null;
 }
 
+handleKeyPress(event) {
+  if(event.key == 'Enter'){
+    console.log('enter pressed!')
+    this.state.activIndex ? this.signUp() : this.signIn();
+  }
+}
+
   render() {
       console.log('props singin', this.props)
       const styBox = { padding: '24px' };
@@ -81,7 +88,7 @@ componentDidUpdate(){
             <Paragraph style={styPara}>
               Fill in the fields and click the button to Log In
             </Paragraph>
-              <Form>
+              <Form onKeyPress={event => this.handleKeyPress(event)}>
                 <FormField label='E-mail'>
                   <TextInput ref='SI_TI' style={{border:'none'}} value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} />
                 </FormField>
@@ -99,7 +106,7 @@ componentDidUpdate(){
             <Paragraph style={styPara}>
               Remember to activate your account after registering
             </Paragraph>
-              <Form>
+              <Form onKeyPress={event => this.handleKeyPress(event)}>
                 <FormField label='E-mail'>
                   <TextInput ref='SU_TI' style={{border:'none'}} value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} />
                 </FormField>
