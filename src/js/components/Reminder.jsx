@@ -43,12 +43,6 @@ deleteReminder(id) {
   this.props.deleteReminder(id);
 }
 
-sortReminders(text) {
-  console.log('this', this);
-  console.log('sortIndex', text);
-  this.props.sortReminders(text);
-}
-
 handleKeyPress(event) {
   if(event.key == 'Enter'){
     console.log('enter pressed!')
@@ -65,8 +59,6 @@ renderReminders() {
     <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
       sortIndex={0}
       sortAscending={false}
-      
-      //onSort={this.sortReminders(0)}
 />
       <tbody>
       {
@@ -120,7 +112,7 @@ render() {
     </Box> 
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
-    </div>    
+    </div>     
     </App>
   )
 }
@@ -130,4 +122,4 @@ function mapStateToProps(state) {
     reminders: state
   }
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders, sortReminders})(Reminder);
+export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders})(Reminder);
