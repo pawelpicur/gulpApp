@@ -9,4 +9,3 @@ export function logUser(email) {
     }
     return action;
 }
-

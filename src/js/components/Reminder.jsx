@@ -32,9 +32,18 @@ class Reminder extends Component {
     }
   }
 
+componentWillMount(){
+  this.sortReminders();
+}
+
 addReminder() {
   console.log('this', this);
   this.props.addReminder(this.state.text, this.state.dueDate);
+  this.sortReminders();
+}
+
+sortReminders() {
+  this.props.sortReminders();
 }
 
 deleteReminder(id) {
@@ -57,8 +66,6 @@ renderReminders() {
   return (
     <Table>
     <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
-      sortIndex={0}
-      sortAscending={false}
 />
       <tbody>
       {
@@ -122,4 +129,4 @@ function mapStateToProps(state) {
     reminders: state
   }
 }
-export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders})(Reminder);
+export default connect(mapStateToProps, {addReminder, deleteReminder, clearReminders, sortReminders})(Reminder);

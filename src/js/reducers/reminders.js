@@ -1,5 +1,19 @@
-import { ADD_REMINDER, DELETE_REMINDER, CLEAR_REMINDERS } from  '../constants';
+import { ADD_REMINDER, DELETE_REMINDER, CLEAR_REMINDERS, SORT_REMINDERS } from  '../constants';
 import { bake_cookie, read_cookie } from 'sfcookies';
+
+const compare = (a, b) => {
+            // Use toUpperCase() to ignore character casing
+            const sortCompA = a.text.toUpperCase();
+            const sortCompB = b.text.toUpperCase();
+
+            let comparison = 0;
+            if (sortCompA > sortCompB) {
+                comparison = 1;
+            } else if (sortCompA < sortCompB) {
+                comparison = -1;
+            }
+            return comparison;
+        }
 
 const reminder = (action) => {
     let {text, dueDate, language } = action;
@@ -23,6 +37,7 @@ const reminders = (state = [], action) => {
         case ADD_REMINDER:
             reminders = [...state, reminder(action)];
             bake_cookie('reminders', reminders);
+            console.log('reminders po add', reminders)
             return reminders;
         case DELETE_REMINDER:
             reminders = removeById(state, action.id);
@@ -30,6 +45,10 @@ const reminders = (state = [], action) => {
             return reminders;
         case CLEAR_REMINDERS:
             reminders = [];
+            bake_cookie('reminders', reminders);
+            return reminders;
+        case SORT_REMINDERS:
+            reminders = state.sort(compare);
             bake_cookie('reminders', reminders);
             return reminders;
         default:

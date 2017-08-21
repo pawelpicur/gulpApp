@@ -1,4 +1,4 @@
-import { ADD_REMINDER, DELETE_REMINDER, CLEAR_REMINDERS } from '../constants';
+import { ADD_REMINDER, DELETE_REMINDER, CLEAR_REMINDERS, SORT_REMINDERS } from '../constants';
 
 //Reminder
 
@@ -25,6 +25,14 @@ export const deleteReminder = (id) => {
 export const clearReminders = () => {
     const action = {
         type: CLEAR_REMINDERS
+    }
+    console.log('cleaning in actions', action);
+    return action;
+}
+
+export const sortReminders = () => {
+    const action = {
+        type: SORT_REMINDERS
     }
     console.log('cleaning in actions', action);
     return action;
