@@ -6,6 +6,8 @@ import Form from 'grommet/components/Form';
 import Select from 'grommet/components/Select';
 import FormField from 'grommet/components/FormField';
 import { bake_cookie, read_cookie } from 'sfcookies';
+import AddGoal from './AddGoal'
+import GoalList from './GoalList'
 
 class Index extends Component {
   constructor(props) {
@@ -32,9 +34,8 @@ class Index extends Component {
   render() {
   return (
       <div>
-          <h3>Goals</h3>
+          
           <Form>
-            
             <FormField label="Language">
               <Select placeHolder='Language'
                 options={[{value:'en', label:'English'}, {value:'pl', label:'Polish'}, {value:'fr', label:'French'}, {value:'es', label:'Spanish'}]}
@@ -42,8 +43,10 @@ class Index extends Component {
                 onChange={event => this.selectLanguage(event)} />
             </FormField>
           </Form>
-          <div>Add Goal</div>
-          <div>Goal List</div>
+          
+          <h3>Goals</h3>
+          <AddGoal />
+          <GoalList />
           <Anchor label="Reminder" path={'/Reminder'}/>
           <button className="btn btn-danger" onClick={() => this.signOut()}>Sign Out</button>
       </div>
