@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { firebaseApp } from '../firebase';
 import { connect } from 'react-redux';
-import Anchor from 'grommet/components/Anchor';
 import Form from 'grommet/components/Form';
 import Select from 'grommet/components/Select';
 import FormField from 'grommet/components/FormField';
@@ -10,6 +9,7 @@ import AddGoal from './AddGoal'
 import GoalList from './GoalList'
 import App from 'grommet/components/App';
 import Button from 'grommet/components/Button';
+import Box from 'grommet/components/Box';
 
 class Index extends Component {
   constructor(props) {
@@ -34,6 +34,7 @@ class Index extends Component {
   }
 
   render() {
+    const styButton = { marginTop: '1em' };
   return (
       <App style={{ padding: '24px'}}>
           <Form style={{width: '100%'}}>
@@ -46,10 +47,15 @@ class Index extends Component {
           </Form>
           
           <h3>Goals</h3>
-          {/* <AddGoal />
-          <GoalList /> */}
-          <Anchor label="Reminder" path={'/Reminder'}/>
-          <Button primary={true} label='Sign Out' onClick={() => this.signOut()}/>
+          <AddGoal/>
+          <h3>Goal List</h3>
+          <GoalList/> 
+          <Box>
+            <Button style={styButton} primary={true} label='Reminders' path={'/Reminder'}/>
+          </Box>
+          <Box>
+            <Button style={styButton} primary={false} critical={true} label='Sign Out' onClick={() => this.signOut()}/>
+          </Box>
       </App>
     )
   }

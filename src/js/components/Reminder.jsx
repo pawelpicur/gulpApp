@@ -69,13 +69,6 @@ clickSort() {
   bake_cookie('ASCDESC', this.state.sortASC)
 }
 
-
-parahover(){
-  var oldtext;
-  oldtext = document.getElementById('para').textContent;
-  document.getElementById('para').textContent = reminder.dueDate;
-}
-
 renderReminders() {
   const { reminders } = this.props;
   return (

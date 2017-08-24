@@ -34,7 +34,7 @@ class AddGoal extends Component {
 function mapStateToProps(state) { // redux state
     const { user } = state //grab email from state
     return { //return the email
-        email: this.props.user.email
+        user
     }
 }
 
