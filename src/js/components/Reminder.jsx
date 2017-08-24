@@ -90,8 +90,8 @@ renderReminders() {
         reminders.map(reminder => {        
           return (
             <TableRow key={reminder.id}>
-                <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
-                <td style={{width: '30%'}}>{(reminder.dueDate.length !== 16 && reminder.dueDate.length > 0) ? 
+                <td style={{width: '75%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
+                <td style={{width: '22%'}}>{(reminder.dueDate.length !== 16 && reminder.dueDate.length > 0) ? 
                   <div title="Click to see the value for 5 seconds" className='wrongdateformat' style={{color:"red"}} id={reminder.id} 
                   onClick={()=> {
                                   var oldtext; 
@@ -102,7 +102,7 @@ renderReminders() {
                           }>Wrong Date Format</div> : (reminder.dueDate ? 
                             moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date')}
                 </td>
-                <td title="Click to delete" style={{width: '5%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
+                <td title="Click to delete the reminder" style={{width: '3%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
             </TableRow>
           )
         })
