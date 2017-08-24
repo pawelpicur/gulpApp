@@ -75,7 +75,6 @@ handleKeyPress(event) {
 
   render() {
       const styBox = { padding: '24px' };
-      const styButton = { maxWidth: '480px'};
       const styError = { color: 'red', marginTop: '1em', minHeight: '24px'};
       const styPara = { marginBottom: '1em', marginTop: '0'};
       const styAnchor = { paddingTop: '1em' };
@@ -87,7 +86,7 @@ handleKeyPress(event) {
             <Paragraph style={styPara}>
               Fill in the fields and click the button to Log In
             </Paragraph>
-              <Form onKeyPress={event => this.handleKeyPress(event)}>
+              <Form style={{width: '100%'}} onKeyPress={event => this.handleKeyPress(event)}>
                 <FormField label='E-mail'>
                   <TextInput ref='SI_TI' style={{border:'none'}} value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} />
                 </FormField>
@@ -96,7 +95,7 @@ handleKeyPress(event) {
                 </FormField>      
               </Form>
               <div style={styError}><strong>{this.state.error.message}</strong></div>
-              <Button fill={true} style={styButton} primary={true} type="submit" label='Log In' onClick={() => this.signIn()}/>
+              <Button fill={true} primary={true} type="submit" label='Log In' onClick={() => this.signIn()}/>
               <div style={styAnchor}><Anchor icon={<UserAddIcon/>} onClick={() => this.setState({activIndex: 1, email: '', password: '',error: {message: "" }})} label='New User? Try signing up' /></div> 
           </Box>
          </Tab>
@@ -105,7 +104,7 @@ handleKeyPress(event) {
             <Paragraph style={styPara}>
               Remember to activate your account after registering
             </Paragraph>
-              <Form onKeyPress={event => this.handleKeyPress(event)}>
+              <Form style={{width: '100%'}} onKeyPress={event => this.handleKeyPress(event)}>
                 <FormField label='E-mail'>
                   <TextInput ref='SU_TI' style={{border:'none'}} value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} />
                 </FormField>
@@ -114,7 +113,7 @@ handleKeyPress(event) {
                 </FormField>      
               </Form>
               <div style={styError}><strong>{this.state.error.message}</strong></div>
-              <Button style={styButton} primary={true} type="submit" label='Create Account' onClick={() => this.signUp()}/>            
+              <Button fill={true} primary={true} type="submit" label='Create Account' onClick={() => this.signUp()}/>            
               <div style={styAnchor}><Anchor icon={<GroupIcon/>} onClick={() => this.setState({activIndex: 0, email: '', password: '',error: {message: "" }})} label='Already Registered? Sign In' /></div>
           </Box>
         </Tab>

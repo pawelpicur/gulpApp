@@ -31,7 +31,7 @@
   font-size: 26px;
 }
   
-.delete-button:hover, .tableSorter th:nth-child(2):hover{
+.delete-button:hover, .tableSorter th:nth-child(2):hover, .wrongdateformat{
   cursor: pointer; 
   cursor: hand;
 }
@@ -40,15 +40,31 @@
     display: table-cell;
     padding: 0;
 }
+.grommetux-table--small tr:nth-child(1) {
+    border-top: 2px solid #00A981;
+}
 
 .grommetux-table--small td:before {
     content: none;
 }
 
 .grommetux-table th {
+    border-top: 2px solid #00A981;
+}
+
+.grommetux-table tr {
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    border-right: 2px solid #01a982;
+    border-left: 2px solid #01a982;
+}
+
+.grommetux-table tr:last-of-type {
     border-bottom: 2px solid #01a982;
 }
 
-.grommetux-table td {
-    border-bottom: 1px solid rgba(0,0,0,0.15);
+// .grommet.grommetux-drop:not([class*="background-color-index-"]){
+//     border: 2px solid #425563;
+// }
+.grommetux-date-time-drop{
+    border: 2px solid #425563;
 }

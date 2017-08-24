@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { addReminder, deleteReminder, clearReminders, sortReminders, sortRemindersDESC } from '../actions/reminders';
 import moment from 'moment';
@@ -68,12 +69,18 @@ clickSort() {
   bake_cookie('ASCDESC', this.state.sortASC)
 }
 
+
+parahover(){
+  var oldtext;
+  oldtext = document.getElementById('para').textContent;
+  document.getElementById('para').textContent = reminder.dueDate;
+}
+
 renderReminders() {
   const { reminders } = this.props;
-  
   return (
   <Table>
-   <TableHeader labels={['Reminder', 'Time Left', 'Delete']}
+   <TableHeader title="Click on the arrow to change sorting direction" labels={['Reminder', 'Time Left', 'Delete']}
     sortIndex={1}
     sortAscending={this.state.sortASC}
     onClick={()=> this.clickSort()}
@@ -84,8 +91,18 @@ renderReminders() {
           return (
             <TableRow key={reminder.id}>
                 <td style={{width: '65%'}}>{reminder.text ? reminder.text : 'Missing Reminder Name'}</td>
-                <td style={{width: '30%'}}>{reminder.dueDate ? moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date'}</td>
-                <td style={{width: '5%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
+                <td style={{width: '30%'}}>{(reminder.dueDate.length !== 16 && reminder.dueDate.length > 0) ? 
+                  <div title="Click to see the value for 5 seconds" className='wrongdateformat' style={{color:"red"}} id={reminder.id} 
+                  onClick={()=> {
+                                  var oldtext; 
+                                  oldtext = document.getElementById(reminder.id).textContent; 
+                                  document.getElementById(reminder.id).textContent = reminder.dueDate; 
+                                  setTimeout(function(){document.getElementById(reminder.id).textContent = oldtext},5000)
+                                }
+                          }>Wrong Date Format</div> : (reminder.dueDate ? 
+                            moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : 'Missing Reminder Date')}
+                </td>
+                <td title="Click to delete" style={{width: '5%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
             </TableRow>
           )
         })
@@ -98,18 +115,18 @@ renderReminders() {
 }
 
 render() {
-  const styButton = { maxWidth: '480px', marginTop: '1em' };
+  const styButton = { marginTop: '1em' };
   return (
-    <App style={{ padding: '24px' }}>
+    <App style={{ padding: '24px'}}>
       <Box pad='none' align='center'>
-          <Form onKeyPress={event => this.handleKeyPress(event)}>
+          <Form style={{width: '100%'}} onKeyPress={event => this.handleKeyPress(event)}>
 
             <FormField label="Reminder">
               <TextInput ref='reminder_input' placeHolder="To do..." style={{border:'none'}} value={this.state.text} onChange={event => this.setState({text: event.target.value})} />
             </FormField>
 
-            <FormField label="Date">
-              <DateTime id='datetime'
+            <FormField label="Date" style={{width: '80%'}}>
+              <DateTime id='datedrop'
                 format="DD/MM/YYYY HH:mm"
                 name='Date'
                 value={this.state.dueDate}
@@ -124,7 +141,7 @@ render() {
       </Box>
         
 
-    <Button fill={true} icon={<ClearIcon colorIndex='critical'/>} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
+    <Button title='WARNING! Clearing reminders is irreversible' fill={true} icon={<ClearIcon colorIndex='critical'/>} style={styButton} primary={false} critical={true} label='Clear Reminders' onClick={() => this.props.clearReminders()}/>
     </Box> 
     <div style={{paddingTop:'2em'}}>
       <Button style={styButton} primary={true} label='Back' path={'/Home'}/>
