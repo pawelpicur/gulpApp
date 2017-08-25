@@ -32,7 +32,9 @@ class Reminder extends Component {
       deleteReminderTitle: 'Click to delete the reminder',
       toDoPlaceholder: 'To do...',
       dateLabel: 'Date',
+      dateInputTitle: 'Type the date in the field or Pick it using the icon on the right',
       addReminder: 'Add Reminder',
+      addReminderTitle: 'Click to add reminder',
       clearRemindersButtonTitle: 'WARNING! Clearing reminders is irreversible',
       clearRemindersMsg: 'Clear Reminders',
       backButtonMsg: 'Back',
@@ -137,13 +139,14 @@ render() {
             <FormField label={this.state.dateLabel} style={{width: '80%'}}>
               <DateTime id='datedrop'
                 format="DD/MM/YYYY HH:mm"
+                title={this.state.dateInputTitle}
                 name={this.state.dateLabel}
                 value={this.state.dueDate}
                 onChange={event => this.setState({dueDate: event})} />
             </FormField>
             
           </Form>
-      <Button fill={true} icon={<AddIcon colorIndex='brand'/>} style={styButton} primary={true} type='submit' label={this.state.addReminder} onClick={() => this.addReminder()}/>
+      <Button fill={true} icon={<AddIcon colorIndex='brand'/>} title={this.state.addReminderTitle} style={styButton} primary={true} type='submit' label={this.state.addReminder} onClick={() => this.addReminder()}/>
 
       <Box style={{paddingTop:'2em'}}>
       { this.renderReminders()}
