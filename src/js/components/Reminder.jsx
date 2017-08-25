@@ -45,6 +45,7 @@ class Reminder extends Component {
       },
       text: '',
       dueDate: '',
+      isValidDate: true,
       sortASC: read_cookie('ASCDESC') !== [] ? read_cookie('ASCDESC') : true,
       language: {
         label: read_cookie('LanguageReminders').label ? read_cookie('LanguageReminders').label : 'English',
@@ -83,6 +84,21 @@ handleKeyPress(event) {
   }
 }
 
+isBlank(str) {
+  return (!str || /^\s*$/.test(str));
+}
+
+validateDate(reminder) {
+  var dueDate = reminder.dueDate;
+  var isValid = true;
+  if (!this.isBlank(dueDate)) {
+    let re = /^([0-3][0-9]){1}[/]([0-1][0-9]){1}[/]([0-9]{4})[ ]([0-2][0-9]){1}([:]([0-5][0-9]){1})|([0-3][0-9]){1}[/]([0-1][0-9]){1}[/]([0-9]{4})$/;
+    isValid = re.test(dueDate);
+    //console.log('reminder: ', reminder.text + ' ' + reminder.dueDate + ' ' + 'isvalid: ' + isValid);
+  }
+  return isValid;
+}
+
 clickSort() { 
   this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC() 
   bake_cookie('ASCDESC', this.state.sortASC)
@@ -99,12 +115,13 @@ renderReminders() {
     className='tableSorter'/>
       <tbody>
       {
-        reminders.map(reminder => {        
+        reminders.map(reminder => {     
+          let reminderValid = !this.validateDate(reminder);  
           return (
             <TableRow key={reminder.id}>
                 <td style={{width: '75%'}}>{reminder.text ? reminder.text : this.state.missingReminderName}</td>
-                <td style={{width: '22%'}}>{(reminder.dueDate.length !== 16 && reminder.dueDate.length > 0) ? 
-                  <div title={this.state.wrongDateFormatTitle} className='wrongdateformat' style={{color:"red"}} id={reminder.id} 
+                <td style={{width: '22%'}}>{(reminderValid) ? 
+                  <div title={this.state.wrongDateFormatTitle} className='wrongdateformat' style={{color:"red", fontWeight: 'bold'}} id={reminder.id} 
                   onClick={()=> { 
                                   let oldmsg = this.state.wrongDateFormatMsg
                                   document.getElementById(reminder.id).textContent = reminder.dueDate; 
