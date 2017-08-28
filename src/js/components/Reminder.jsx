@@ -38,6 +38,7 @@ class Reminder extends Component {
       addReminderTitle: 'Click to add reminder',
       clearRemindersButtonTitle: 'WARNING! Clearing reminders is irreversible',
       clearRemindersMsg: 'Clear Reminders',
+      invalidDateString: 'Invalid Date',
       backButtonMsg: 'Back',
       label: {
         reminder: 'Reminder',
@@ -106,6 +107,12 @@ clickSort() {
   bake_cookie('ASCDESC', this.state.sortASC)
 }
 
+onClickDivDateReveal(string, reminder, timeoutTime){ 
+  let oldString = string;
+  document.getElementById(reminder.id).textContent = reminder.dueDate; 
+  setTimeout(function(){document.getElementById(reminder.id).textContent = oldString},timeoutTime)
+}
+
 formatDate(reminder){
   let inputDateString = "DD/MM/YYYY HH:mm";
   let outputDateString = "MM/DD/YYYY h:mm a";
@@ -113,6 +120,8 @@ formatDate(reminder){
   let myDate = new Date(formattedDate);
   let localize = moment (myDate).locale(this.state.language.value);
   let fromNow = localize.fromNow();
+  fromNow === "Invalid date" ? fromNow = <div title={this.state.wrongDateFormatTitle} className='wrongdateformat' style={{color:"red", fontWeight: 'bold'}} id={reminder.id} 
+  onClick={()=> this.onClickDivDateReveal(this.state.invalidDateString, reminder, 5000)}>{this.state.invalidDateString}</div> : '';
   return fromNow;
 }
 
@@ -134,12 +143,8 @@ renderReminders() {
                 <td style={{width: '75%'}}>{reminder.text ? reminder.text : this.state.missingReminderName}</td>
                 <td style={{width: '22%'}}>{(reminderValid) ? 
                   <div title={this.state.wrongDateFormatTitle} className='wrongdateformat' style={{color:"red", fontWeight: 'bold'}} id={reminder.id} 
-                  onClick={()=> { 
-                                  let oldmsg = this.state.wrongDateFormatMsg
-                                  document.getElementById(reminder.id).textContent = reminder.dueDate; 
-                                  setTimeout(function(){document.getElementById(reminder.id).textContent = oldmsg},5000)
-                                }
-                          }>{this.state.wrongDateFormatMsg}</div> : (reminder.dueDate ? this.formatDate(reminder) : this.state.missingReminderDate)}
+                  onClick={() => this.onClickDivDateReveal(this.state.wrongDateFormatMsg, reminder, 5000)}>{this.state.wrongDateFormatMsg}</div> : 
+                  (reminder.dueDate ? this.formatDate(reminder) : this.state.missingReminderDate)}
                 </td>
                 <td title={this.state.deleteReminderTitle} style={{width: '3%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
             </TableRow>
@@ -148,8 +153,7 @@ renderReminders() {
       }
       
       </tbody>
-  </Table>
-    
+  </Table>   
   )
 }
 
@@ -172,7 +176,7 @@ render() {
                 value={this.state.dueDate}
                 onChange={event => this.setState({dueDate: event})} />
             </FormField>
-            
+        
           </Form>
       <Button fill={true} icon={<AddIcon colorIndex='brand'/>} title={this.state.addReminderTitle} style={styButton} primary={true} type='submit' label={this.state.addReminder} onClick={() => this.addReminder()}/>
 
