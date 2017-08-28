@@ -33,6 +33,7 @@ class Reminder extends Component {
       toDoPlaceholder: 'To do...',
       dateLabel: 'Date',
       dateInputTitle: 'Type the date in the field or Pick it using the icon on the right',
+      dateStringFormat: 'DD/MM/YYYY HH:mm', //dla pl np DD/MM/RRRR GG:mm
       addReminder: 'Add Reminder',
       addReminderTitle: 'Click to add reminder',
       clearRemindersButtonTitle: 'WARNING! Clearing reminders is irreversible',
@@ -90,9 +91,10 @@ isBlank(str) {
 
 validateDate(reminder) {
   var dueDate = reminder.dueDate;
+  dueDate.length === 10 ? dueDate = dueDate + ' 00:00' : '';
   var isValid = true;
   if (!this.isBlank(dueDate)) {
-    let re = /^([0-3][0-9]){1}[/]([0-1][0-9]){1}[/]([0-9]{4})[ ]([0-2][0-9]){1}([:]([0-5][0-9]){1})|([0-3][0-9]){1}[/]([0-1][0-9]){1}[/]([0-9]{4})$/;
+    let re = /^([0-3][0-9]){1}[/]([0-1][0-9]){1}[/]([0-9]{4})[ ]([0-2][0-9]){1}[:]([0-5][0-9]){1}$/;
     isValid = re.test(dueDate);
     //console.log('reminder: ', reminder.text + ' ' + reminder.dueDate + ' ' + 'isvalid: ' + isValid);
   }
@@ -102,6 +104,16 @@ validateDate(reminder) {
 clickSort() { 
   this.state.sortASC ? this.sortReminders() : this.sortRemindersDESC() 
   bake_cookie('ASCDESC', this.state.sortASC)
+}
+
+formatDate(reminder){
+  let inputDateString = "DD/MM/YYYY HH:mm";
+  let outputDateString = "MM/DD/YYYY h:mm a";
+  let formattedDate = moment (reminder.dueDate, inputDateString).format(outputDateString);
+  let myDate = new Date(formattedDate);
+  let localize = moment (myDate).locale(this.state.language.value);
+  let fromNow = localize.fromNow();
+  return fromNow;
 }
 
 renderReminders() {
@@ -127,8 +139,7 @@ renderReminders() {
                                   document.getElementById(reminder.id).textContent = reminder.dueDate; 
                                   setTimeout(function(){document.getElementById(reminder.id).textContent = oldmsg},5000)
                                 }
-                          }>{this.state.wrongDateFormatMsg}</div> : (reminder.dueDate ? 
-                            moment (new Date(moment (reminder.dueDate, "DD/MM/YYYY HH:mm").format("MM/DD/YYYY h:mm a"))).locale(this.state.language.value).fromNow() : this.state.missingReminderDate)}
+                          }>{this.state.wrongDateFormatMsg}</div> : (reminder.dueDate ? this.formatDate(reminder) : this.state.missingReminderDate)}
                 </td>
                 <td title={this.state.deleteReminderTitle} style={{width: '3%', textAlign:'center'}} className='delete-button' onClick={() => this.deleteReminder(reminder.id)}><FormCloseIcon colorIndex='critical'/></td>
             </TableRow>
@@ -155,7 +166,7 @@ render() {
 
             <FormField label={this.state.dateLabel} style={{width: '80%'}}>
               <DateTime id='datedrop'
-                format="DD/MM/YYYY HH:mm"
+                format={this.state.dateStringFormat}
                 title={this.state.dateInputTitle}
                 name={this.state.dateLabel}
                 value={this.state.dueDate}
