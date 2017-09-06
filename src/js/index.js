@@ -20,23 +20,20 @@ const store = createStore(reducer);
 const storereminders = createStore(reminders);
 
 const history = createHistory();
- firebaseApp.auth().onAuthStateChanged(user => {
-      if (user) {
-          console.log('user has signed in or up', user);
-          const { email } = user;
-          store.dispatch(logUser(email))
-          history.push('/Home');
-      } 
-      else { 
-          console.log('user has signed out or still needs sign in');
-          history.replace('/SignForm');
-      }
-  })
+firebaseApp.auth().onAuthStateChanged(user => {
+  if (user) {
+    console.log('user has signed in or up', user);
+    const { email } = user;
+    store.dispatch(logUser(email));
+    history.push('/Home');
+  } else { 
+    console.log('user has signed out or still needs sign in');
+    history.replace('/SignForm');
+  }
+});
 
 class Main extends Component {
-
-render() {
-
+  render() {
     return (
         <Provider store={store}>
             <Router history={history}>
@@ -52,8 +49,7 @@ render() {
         </Provider>
     
     );
-}
-  
+  }
 };
 
 let element = document.getElementById('content');
