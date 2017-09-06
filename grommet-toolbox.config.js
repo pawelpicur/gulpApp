@@ -19,7 +19,6 @@ export default {
   devServer: {
     https: true
   },
-  devServerHost: 'testchat.hpe.com',
   devServerPort: 3666,
   publicPath: '/SignForm'
 };
