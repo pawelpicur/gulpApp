@@ -6,8 +6,7 @@
   "repository": "",
   "license": "",
   "scripts": {
-    "start": "node web.js",
-    "postinstall": "gulp heroku:production"
+    "start": "node web.js"
   },
   "engines": {
     "node": "6.11.0",
