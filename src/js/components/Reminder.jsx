@@ -150,8 +150,7 @@ renderReminders() {
             </TableRow>
           )
         })
-      }
-      
+      }   
       </tbody>
   </Table>   
   )
@@ -160,7 +159,7 @@ renderReminders() {
 render() {
   const styButton = { marginTop: '1em' };
   return (
-    <App style={{ padding: '24px'}}>
+    <App style={{ padding: '24px'}}>     
       <Box pad='none' align='center'>
           <Form style={{width: '100%'}} onKeyPress={event => this.handleKeyPress(event)}>
 
