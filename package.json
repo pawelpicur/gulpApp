@@ -6,7 +6,7 @@
   "repository": "",
   "license": "",
   "scripts": {
-    "start": "node web.js"
+    "start": "gulp dev"
   },
   "engines": {
     "node": "6.11.0",
