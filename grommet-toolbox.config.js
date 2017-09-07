@@ -17,8 +17,9 @@ export default {
   mainJs: 'src/js/index.js',
   mainScss: 'src/scss/index.scss',
   devServer: {
-    https: false
+    https: true
   },
-  devServerPort: 5000,
+  devServerHost: 'testchat.hpe.com',
+  devServerPort: 3666,
   publicPath: '/SignForm'
 };
