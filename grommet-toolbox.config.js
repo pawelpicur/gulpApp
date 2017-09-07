@@ -19,6 +19,6 @@ export default {
   devServer: {
     https: false
   },
-  devServerPort: 3666,
+  devServerPort: 5000,
   publicPath: '/SignForm'
 };
