@@ -6,7 +6,8 @@
   "repository": "",
   "license": "",
   "scripts": {
-    "heroku-postbuild": "gulp dist"
+    "heroku-postbuild": "gulp dist",
+    "start": "gulp dev"
   },
   "dependencies": {
     "array-includes": "^3.0.3",
